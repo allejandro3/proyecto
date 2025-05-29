@@ -127,3 +127,9 @@ h1.page-title {
     background-image: url("{{ url_for('static', filename='images/app_backgrounds/' + app_name.lower() + '_bg.jpg') }}");
     /* ... otros estilos ... */
 }
+
+/* Estilo para el logo en la página de inicio */
+.landing-logo {
+  max-height: 150px;
+  margin-bottom: 1rem;
+}
