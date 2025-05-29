@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar Sesión - DeskSick{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5 col-xl-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title text-center mb-0">Iniciar Sesión</h2>
+            </div>
+            <div class="card-body p-4">
+                {# Los mensajes flash ya se manejan en base.html, no es necesario repetirlos aquí #}
+                {# a menos que quieras una ubicación específica solo para esta página #}
+                <form method="POST" action="{{ url_for('login') }}">
+                    <div class="mb-3"> {# Usar clases de Bootstrap para margen como mb-3 #}
+                        <label for="email" class="form-label"></label>
+                        <input type="email" class="form-control form-control-lg" id="email" name="email" required placeholder="tu.correo@ejemplo.com">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label"></label>
+                        <input type="password" class="form-control form-control-lg" id="password" name="password" required placeholder="Tu contraseña">
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Entrar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center py-3">
+              <p class="mb-0">¿No tienes una cuenta? <a href="{{ url_for('register') }}">Regístrate aquí</a></p>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

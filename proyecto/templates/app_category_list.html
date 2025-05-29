@@ -1,0 +1,46 @@
+{% extends "base.html" %} <!-- O tu plantilla base si usas una -->
+
+{% block title %}Aplicaciones en {{ category|capitalize }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Aplicaciones Disponibles en {{ category|capitalize }}</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category_msg, message in messages %}
+                <div class="alert alert-{{ category_msg if category_msg != 'message' else 'info' }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if apps %}
+        <div class="list-group">
+            {% for app_item in apps %}
+                <a href="{{ url_for('show_app_versions', category=category, app_name=app_item) }}" class="list-group-item list-group-item-action">
+                    {{ app_item }}
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            No hay aplicaciones disponibles en esta categoría por el momento.
+        </div>
+    {% endif %}
+
+    <p class="mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Volver al Dashboard
+        </a>
+    </p>
+</div>
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container text-center">
+        <span class="text-muted">&copy; {{ current_year }} DeskSick. Todos los derechos reservados.</span>
+    </div>
+</footer>
+{% endblock %}
+

@@ -1,0 +1,129 @@
+/* static/css/style.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212; /* Fondo oscuro principal */
+    color: #e0e0e0;
+    line-height: 1.6; /* Mejora la legibilidad del texto largo */
+}
+
+.card-header h2.card-title {
+    font-size: 1.75rem; /* Ajustar tamaño del título en las tarjetas */
+    font-weight: 500; /* Un poco menos grueso que el bold por defecto de h2 */
+    color: #f8f9fa; /* Títulos de tarjeta en blanco para contraste con header oscuro */
+}
+/* Mejoras para las Tarjetas (Cards) */
+.card {
+    background-color: #1e1e1e; /* Fondo de tarjeta oscuro, ligeramente más claro que el body */
+    border: 1px solid #333; /* Borde sutil más oscuro */
+    /* box-shadow: 0 4px 8px rgba(0,0,0,0.05); */
+    transition: transform 0.2s ease-in-out; /* Transición suave para hover */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Efecto sutil de elevación al pasar el cursor */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.25); /* Sombra más pronunciada y oscura */
+}
+
+.card-header {
+    background-color: #2a2a2a; /* Fondo del encabezado de la tarjeta */
+    border-bottom: 1px solid #333;
+}
+
+/* Estilos para los botones de Bootstrap */
+.btn {
+    border-radius: 0.25rem; /* Bordes ligeramente menos redondeados si prefieres */
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+/* filter: brightness(90%); */ /* Comentario de ejemplo, mantener si es intencional */
+/* Botones primarios y de éxito específicos para tema oscuro si es necesario */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.btn-success:hover {
+    background-color: #1e7e34;
+    border-color: #1e7e34;
+}
+
+.btn:hover {
+    transform: translateY(-2px); /* Pequeño efecto de elevación */
+    /* Bootstrap maneja el cambio de color, pero podrías forzarlo: */
+    /* filter: brightness(90%); */
+}
+/* Personalización de la Navbar */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem; /* Un poco más grande */
+    color: #ffffff !important; /* Asegurar que la marca sea blanca si la navbar es oscura */
+}
+
+/* Estilos para enlaces de texto generales */
+a {
+    color: #6cb2eb; /* Un azul más claro para mejor visibilidad en fondo oscuro */
+    text-decoration: none; /* Quitar subrayado por defecto */
+    transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+    color: #8ec9f5; /* Un azul aún más claro al pasar el cursor */
+    text-decoration: underline; /* Subrayar al pasar el cursor para claridad */
+}
+
+/* Títulos principales de página (si no están en un card-header) */
+h1.page-title {
+    margin-bottom: 1.5rem;
+    color: #f8f9fa; /* Títulos de página claros */
+}
+/* Ajustes para los mensajes flash para que ocupen menos espacio si son muchos */
+.alert {
+    margin-bottom: 0.75rem; /* Un poco menos de margen inferior */
+    color: #121212; /* Texto oscuro para alertas claras para legibilidad */
+}
+/* Asegurar que los inputs de formulario sean legibles */
+.form-control {
+    background-color: #2a2a2a; /* Fondo oscuro para inputs */
+    color: #e0e0e0; /* Texto claro para inputs */
+    border: 1px solid #444;
+}
+.form-control:focus {
+    background-color: #333;
+    color: #e0e0e0;
+    border-color: #007bff; /* Mantener el borde de foco de Bootstrap */
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Mantener sombra de foco */
+}
+/* Estilo para el texto del placeholder en los inputs */
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #999; /* Un gris claro, visible en fondo oscuro */
+    opacity: 1; /* Firefox por defecto le pone menos opacidad */
+}
+  /* Para navegadores más antiguos o específicos si es necesario */
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #999;
+  }
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+    color: #999;
+  }
+/* Estilo para el texto en el pie de las tarjetas de login/registro */
+.card-footer p {
+    color: #adb5bd; /* Un gris un poco más suave para el texto del footer */
+  }
+  /* Los enlaces <a> dentro del card-footer ya deberían heredar el estilo de 'a' general */
+.app-background-container {
+    position: relative;
+    /* ... otros estilos ... */
+    background-color: #444; /* Ejemplo de color de fondo oscuro como fallback */
+    background-image: url("{{ url_for('static', filename='images/app_backgrounds/' + app_name.lower() + '_bg.jpg') }}");
+    /* ... otros estilos ... */
+}

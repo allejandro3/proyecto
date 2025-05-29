@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }} - DeskSick{% endblock %}
+
+{% block content %}
+<div class="p-4 mb-3 bg-light rounded-3 shadow-sm">
+  <div class="container-fluid py-3 text-center"> {# Ajustado py-5 a py-3 para dar más espacio si la imagen es grande #}
+    {# Aquí reemplazamos el título de texto con la imagen #} 
+    <img src="{{ url_for('static', filename='images/plantilla.png') }}" 
+         alt="Logo Principal DeskSick" 
+         class="img-fluid" 
+         style="max-height: 150px; margin-bottom: 1rem;"> {# Ajusta max-height y el margen según necesites #}
+    {# Los botones de Iniciar Sesión/Registrarse ya están en la navbar de base.html #}
+    {# Si no estás logueado, se mostrarán allí. Si estás logueado, se mostrará Dashboard/Cerrar Sesión #}
+  </div>
+</div>
+<div class="container">
+  <div class="row text-center">
+    <div class="col-lg-8 mx-auto">
+      <h2>¡Bienvenido a Tu Centro de Instaladores!</h2>
+      <p class="lead">¿Cansado de buscar instaladores de aplicaciones por toda la web? ¡Has llegado al lugar correcto! Aquí encontrarás una colección organizada y fácil de usar de instaladores para tus aplicaciones favoritas.</p>
+      <p>Explora nuestras categorías o usa la búsqueda para encontrar rápidamente lo que necesitas. ¡Simplificamos la instalación de software!</p>
+      {% if not current_user.is_authenticated %}
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg px-4 gap-3">Iniciar Sesión</a>
+        <a href="{{ url_for('register') }}" class="btn btn-outline-secondary btn-lg px-4">Registrarse</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

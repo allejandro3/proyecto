@@ -1,0 +1,73 @@
+{% extends "base.html" %} <!-- O tu plantilla base si usas una -->
+{% block title %}Versiones de {{ app_name|capitalize }}{% endblock %}
+{% block head %}
+    {{ super() }} {# Mantiene cualquier contenido del head de la plantilla base #}
+    <style>
+        /* Estilos para el contenedor principal con la imagen de fondo */
+        .app-background-container {
+            position: relative; /* Necesario para posicionar el overlay */
+            background-image: url("{{ url_for('static', filename='images/app_backgrounds/' + app_name.lower() + '_bg.jpg') }}"); /* Ruta dinámica de la imagen */
+            background-size: cover; /* Cubre todo el contenedor */
+            background-position: center; /* Centra la imagen */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            padding: 30px 0; /* Espacio interno arriba y abajo */
+            color: white; /* Color de texto por defecto para que se vea sobre el fondo */
+        }
+
+        /* Capa semitransparente sobre la imagen para mejorar la legibilidad del texto */
+        .app-background-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6); /* Fondo negro semitransparente (60% opacidad) */
+            z-index: 1; /* Asegura que esté sobre la imagen pero debajo del contenido */
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Versiones Disponibles para {{ app_name|capitalize }} <small class="text-muted">(Categoría: {{ category|capitalize }})</small></h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category_msg, message in messages %}
+                <div class="alert alert-{{ category_msg if category_msg != 'message' else 'info' }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{# Contenedor principal con fondo y overlay #}
+<div class="app-background-container">
+    <div class="app-background-overlay"></div> {# Capa de overlay #}
+    <div class="container" style="position: relative; z-index: 2;"> {# Contenido real, encima del overlay #}
+        {% if versions %}
+            <ul class="list-group list-group-flush"> {# list-group-flush para quitar bordes si quieres #}
+                {% for version_file in versions %}
+                    {# Ajusta el color del texto y fondo del item si es necesario para que se vea bien #}
+                    <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: rgba(255, 255, 255, 0.8); color: #333;">
+                        {{ version_file }}
+                        <a href="{{ url_for('download_file', filename=category + '/' + app_name + '/' + version_file) }}" class="btn btn-sm btn-success">
+                            <i class="fas fa-download"></i> Descargar
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                No hay versiones disponibles para esta aplicación por el momento.
+            </div>
+        {% endif %}
+        <p class="mt-4">
+            <a href="{{ url_for('show_download_category', category=category) }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver a Aplicaciones de {{ category|capitalize }}
+            </a>
+        </p>
+    </div>
+</div>
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container text-center">
+        <span class="text-muted">&copy; {{ current_year }} DeskSick. Todos los derechos reservados.</span>
+    </div>
+</footer>
+{% endblock %}

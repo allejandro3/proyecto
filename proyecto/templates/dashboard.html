@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Bienvenido</h2>
+
+    <hr>
+
+    <h3>Archivos Disponibles para Descargar:</h3>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'error' and "archivo solicitado no fue encontrado" in message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h4>Para Computadora:</h4>
+    <ul>
+      <li class="mb-2">
+        <a href="{{ url_for('show_download_category', category='computadora') }}" class="btn btn-primary">
+            Ver Apps para Computadora
+        </a>
+      </li>
+     </ul>
+    <h4>Para Telefonos:</h4>
+    <ul>
+        <li class="mb-2">
+            <a href="{{ url_for('show_download_category', category='telefono') }}" class="btn btn-info">
+                Ver Apps para Teléfono
+            </a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
