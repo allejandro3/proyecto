@@ -130,6 +130,6 @@ h1.page-title {
 
 /* Estilo para el logo en la página de inicio */
 .landing-logo {
-  max-height: 150px;
+  max-height: 310px; /* Aumentado para hacerlo más grande */
   margin-bottom: 1rem;
 }
