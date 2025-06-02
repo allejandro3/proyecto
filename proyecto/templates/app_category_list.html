@@ -6,6 +6,14 @@
 <div class="container mt-5">
     <h2>Aplicaciones Disponibles en {{ category|capitalize }}</h2>
 
+    <!-- Formulario de Búsqueda -->
+    <form method="GET" action="{{ url_for(request.endpoint, category=category) }}" class="mb-4 mt-3">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Buscar aplicación en esta categoría..." value="{{ search_query or '' }}">
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Buscar</button>
+        </div>
+    </form>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category_msg, message in messages %}
@@ -25,9 +33,15 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="alert alert-info" role="alert">
-            No hay aplicaciones disponibles en esta categoría por el momento.
-        </div>
+        {% if search_query %}
+            <div class="alert alert-warning" role="alert">
+                No se encontraron aplicaciones que coincidan con tu búsqueda: "<strong>{{ search_query }}</strong>".
+            </div>
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                No hay aplicaciones disponibles en esta categoría por el momento.
+            </div>
+        {% endif %}
     {% endif %}
 
     <p class="mt-4">
@@ -43,4 +57,3 @@
     </div>
 </footer>
 {% endblock %}
-
