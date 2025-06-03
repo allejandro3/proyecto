@@ -139,6 +139,49 @@ def dashboard() -> str:
     # y está disponible automáticamente en las plantillas.
     return render_template('dashboard.html', current_year=current_year)
 
+# --- Ruta para el buscador de aplicaciones ---
+@app.route('/search_apps')
+@login_required
+def search_apps():
+    original_query = request.args.get('q', '').strip() # Conserva el término original para mostrarlo
+    query_for_search = original_query.lower() # Convierte a minúsculas para la búsqueda
+    search_results = []
+    current_year = datetime.datetime.now().year
+
+    if not original_query: # Si no se ingresó ningún término
+        print("DEBUG: search_apps - No se ingresó término de búsqueda. Flashing 'Por favor, ingresa...'")
+        flash("Por favor, ingresa un término para buscar.", "info")
+        # Renderiza la plantilla de resultados vacía o redirige
+        print("DEBUG: search_apps - Renderizando search_results.html para query vacío.")
+        return render_template('search_results.html', query=original_query, results=search_results, current_year=current_year)
+
+    try:
+        # Asumimos que DOWNLOAD_DIRECTORY contiene carpetas de categorías
+        # y dentro de cada categoría, carpetas de aplicaciones.
+        categories = [d for d in os.listdir(DOWNLOAD_DIRECTORY) if os.path.isdir(os.path.join(DOWNLOAD_DIRECTORY, d))]
+        for category_name in categories:
+            category_path = os.path.join(DOWNLOAD_DIRECTORY, category_name)
+            apps_in_category = [app_dir for app_dir in os.listdir(category_path) if os.path.isdir(os.path.join(category_path, app_dir))]
+            
+            for app_name in apps_in_category:
+                if query_for_search in app_name.lower(): # Usa el término en minúsculas para la búsqueda
+                    search_results.append({
+                        'category': category_name,
+                        'app_name': app_name,
+                        'url': url_for('show_app_versions', category=category_name, app_name=app_name)
+                    })
+    except OSError as e:
+        flash(f"Error al acceder al directorio de descargas: {e}", "error")
+        print(f"DEBUG: search_apps - OSError al acceder a directorios: {e}")
+    
+    # Si se hizo una búsqueda y no hubo resultados, muestra un mensaje flash
+    if original_query and not search_results:
+        print(f"DEBUG: search_apps - Búsqueda para '{original_query}' no encontró resultados. Flashing 'No se encontraron...'")
+        flash(f"No se encontraron aplicaciones que coincidan con '{original_query}'.", "warning")
+
+    print(f"DEBUG: search_apps - Renderizando search_results.html con query='{original_query}' y {len(search_results)} resultados.")
+    return render_template('search_results.html', query=original_query, results=search_results, current_year=current_year)
+
 # --- Ruta para mostrar archivos de una categoría específica ---
 @app.route('/downloads/<category>')
 @login_required

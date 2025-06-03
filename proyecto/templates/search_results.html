@@ -1,0 +1,50 @@
+{% extends "base.html" %} <!-- O tu plantilla base si usas una diferente, ej: dashboard.html si quieres la misma estructura -->
+
+{% block title %}Resultados de Búsqueda de Aplicaciones{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Resultados de Búsqueda para: "{{ query }}"</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if results %}
+        <p>Se encontraron {{ results|length }} aplicaciones:</p>
+        <ul class="list-group mt-3">
+            {% for item in results %}
+                <li class="list-group-item">
+                    <a href="{{ item.url }}">
+                        <strong>{{ item.app_name }}</strong>
+                    </a>
+                    <small class="text-muted"> (Categoría: {{ item.category }})</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif query %}
+        <p class="mt-3">No se encontraron aplicaciones que coincidan con "{{ query }}".</p>
+    {# Si no hay 'results' y no hay 'query', el mensaje flash inicial 
+       ("Por favor, ingresa un término...") ya se habrá mostrado. No se necesita un 'else' aquí. #}
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Volver al Dashboard</a>
+    </div>
+</div>
+
+<hr>
+<h4>Nueva Búsqueda</h4>
+<form method="GET" action="{{ url_for('search_apps') }}" class="d-flex mt-2">
+    <input class="form-control me-2" type="search" name="q" placeholder="Buscar aplicaciones..." aria-label="Buscar" value="{{ query }}">
+    <button class="btn btn-outline-primary" type="submit">Buscar</button>
+</form>
+
+{% endblock %}
